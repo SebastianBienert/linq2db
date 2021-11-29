@@ -132,6 +132,10 @@ namespace LinqToDB.DataProvider.PostgreSQL
 			mapType("tsmultirange"            , NpgsqlProviderAdapter.NpgsqlDbType.TimestampMultirange);
 			mapType("tstzmultirange"          , NpgsqlProviderAdapter.NpgsqlDbType.TimestampTzMultirange);
 			mapType("datemultirange"          , NpgsqlProviderAdapter.NpgsqlDbType.DateMultirange);
+			// postgis
+			mapType("geometry", NpgsqlProviderAdapter.NpgsqlDbType.Geometry);
+			mapType("geography", NpgsqlProviderAdapter.NpgsqlDbType.Geography);
+
 
 
 			SetProviderField(Adapter.NpgsqlTimeSpanType, Adapter.NpgsqlTimeSpanType, Adapter.GetIntervalReaderMethod     , dataReaderType: Adapter.DataReaderType);
@@ -513,6 +517,12 @@ namespace LinqToDB.DataProvider.PostgreSQL
 
 			if (dbType.StartsWith("bit varying("))
 				dbType = "bit varying";
+
+			if (dbType.StartsWith("geometry("))
+				dbType = "geometry";
+
+			if (dbType.StartsWith("geography("))
+				dbType = "geography";
 
 			if (_npgsqlTypeMap.ContainsKey(dbType))
 			{
